@@ -1,0 +1,24 @@
+.postblock{
+   
+    margin: 3rem;
+   height: 15rem;
+   overflow: hidden;
+   border-radius: .2rem;
+   box-shadow:rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px, rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+  
+
+}
+.employer{
+    float: right;
+}
+.postblock:hover{
+    -moz-box-shadow: 3px 2px 24px -4px rgba(0,0,0,0.75);
+    box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px,  rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+  
+}
+.text{
+    margin-left: 1rem;
+}
+.title{
+    margin-left: 2rem;
+}
