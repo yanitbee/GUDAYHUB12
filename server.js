@@ -4,11 +4,13 @@ const mongoose = require("mongoose");
 
 const DataModel = require("./src/models/user")
 const postModel = require("./src/models/post")
+const ApplicantModel = require("./src/models/applicant")
 const connectDB = require("./Database")
 connectDB();
 
 const app = express();
 app.use(express.json({extended: false}))
+app.use(express.static('public'));
 
 const cors = require("cors")
 app.use(cors());
@@ -59,6 +61,49 @@ app.get("/readpost", (req, res)=>{
     }catch (error){
         console.log("errorr", error.message)
         res.status(500).send("server error while reading post")
+
+    }
+})
+
+
+app.get("/search/:id", async (req, res) => {
+    try {
+      const postId = req.params.id;
+      const post = await postModel.findById(postId);
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+      res.json(post);
+    } catch (error) {
+      console.error("Error reading post:", error);
+      res.status(500).json({ message: "Server error while reading post" });
+    }
+  });
+
+  app.get("/freelancerapply/:id", async (req, res) => {
+    try {
+      const freelancerid = req.params.id;
+      const freelancer = await DataModel.findById(freelancerid);
+      if (!freelancer) {
+        return res.status(404).json({ message: "freelancer not found" });
+      }
+      res.json(freelancer);
+    } catch (error) {
+      console.error("Error reading post:", error);
+      res.status(500).json({ message: "Server error while reading freelancer" });
+    }
+  });
+
+  app.post("/writeapplicant", async (req, res)=>{
+    try{
+        const { Freelancerid, postid, Coverletter} = req.body;
+        const newPost = new ApplicantModel({  Freelancerid, postid, Coverletter})
+        await newPost.save();
+        res.json({message: "applicant saved successfully"})
+
+    }catch (error){
+        console.log("errorrrrrrr", error.message)
+        res.status(500).send("server error while saving applicant erorrrrrrrr")
 
     }
 })

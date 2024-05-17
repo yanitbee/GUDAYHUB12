@@ -29,6 +29,9 @@ const DataSchema = new mongoose.Schema({
     Gender:{
         type: String,
         required: true
-    }
+    },
+    profilepic:{
+        type: String,
+    },
 });
 module.exports = mongoose.model("DataModel", DataSchema);

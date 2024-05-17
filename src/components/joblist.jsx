@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./joblist.css" 
 
-export default function Joblist(){
+export default function Joblist({prop}){
     const [readData, setreadData] = useState([]);
 
     useEffect(() => {
@@ -21,14 +21,14 @@ export default function Joblist(){
     let navigate = useNavigate();
 
     const handleclick = (postid) => {
-        navigate("Apply", { state: postid });}
+        navigate("Apply", { state: {postid: postid ,freelancerid:prop}});}
 
     return(
        <>
     <div >
        {readData.map((data) => (
         <div onClick={() => handleclick(data._id)} className="postblock">
-          <img className="employer" src={data.employer}/>
+          <img className="employer" src={`${process.env.PUBLIC_URL}${data.employer}`}/>
             <div>
             <h3 className="text">Job Type </h3>
          <p className="title">{data.Jobtype}</p>
