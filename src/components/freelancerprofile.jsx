@@ -1,11 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./profile.css"
 
 export default function Frelancerprofile({prop}){
+  const [inputValue, setinputValue] = useState({title: ''})
 
-    const [freelancerData, setfreelancerData] = useState([]);
+  const inputref = useRef(null)
+  const [freelancerData, setfreelancerData] = useState([]);
+ 
 
+    const handleImage = () =>{
+        inputref.current.click();
+    }
+
+    const uploadimg = async (e) =>{
+        const file = e.target.files[0];
+       
+        if (file) {
+          await editpic(file);
+        }
+        
+    }
+
+    
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -19,7 +36,43 @@ export default function Frelancerprofile({prop}){
         fetchData();
       }, []);
      
+
+
+      const editpic = async (file) => {
+
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+          const response =  await axios.put(`http://localhost:5000/freelancerpicedit/${prop}`,  formData,
+          {  headers: {
+          'Content-Type': 'multipart/form-data'
+        }})
+        } catch (error) {
+          console.error("errorr", error);
+        }
+      };
       
+ 
+
+
+     
+        const editData = async () => {
+
+          const formData = new FormData();
+          
+          formData.append('title', inputValue.title);
+          try {
+           await axios.put(`http://localhost:5000/freelanceredit/${prop}`,  formData,
+            {  headers: {
+            'Content-Type': 'multipart/form-data'
+          }})
+
+          } catch (error) {
+            console.error("errorr", error);
+          }
+        };
+     
+  
 
       const [popup, setPopup] = useState(false);
   
@@ -37,45 +90,49 @@ export default function Frelancerprofile({prop}){
     return(
         <>
         <div>
+        <div className="holder end-0">
         {freelancerData && (
           
           <img 
           onClick={togglePopup}
-          className="profilepic end-0 " 
-          src={freelancerData.profilepic === "" 
-                ? `${process.env.PUBLIC_URL}/image/profile.jpg` 
+          className="profilepic " 
+          src={freelancerData.profilepic === "" || freelancerData.profilepic===null 
+                ? `${process.env.PUBLIC_URL}/image/profile.jpg`
                 : `${process.env.PUBLIC_URL}/${freelancerData.profilepic}`
               } 
           alt="Profile"
-        />  
+        />
        )}
+       </div> 
                    <div className="wrapper ">
             {popup && (
                 <div className={`profilebox `}>
                     <div className="profile-content">
+
+                        <div className="pholder  "  onClick={handleImage}>
                     <img 
-          className="ppic end-0 " 
-          src={freelancerData.profilepic === "" 
+          className="ppic " 
+          src={freelancerData.profilepic === "" || freelancerData.profilepic===null
                 ? `${process.env.PUBLIC_URL}/image/profile.jpg` 
                 : `${process.env.PUBLIC_URL}/${freelancerData.profilepic}`
               } 
           alt="Profile"
-        /> <br/>
-            Fullname 
-            <input className="input" type="text" placeholder={freelancerData.Fullname} /><br/>
-            Phonenumber
-            <input className="input" type="text" placeholder={freelancerData.Phonenumber} /><br/>
-            Email
-            <input className="input" type="email" placeholder={freelancerData.Email} /> <br/>
-            Address
-            <input className="input" type="text" placeholder='Address' /> <br />
+        /> 
+        <input onChange={uploadimg} type="file"  ref={inputref} style={{display:"none"}}/> 
+        </div>
+
+        <br/>
+        {freelancerData.Fullname} <br/>
+        {freelancerData.Email}<br/>
+
+            <input  onChange={e => setinputValue({ ...inputValue, title: e.target.value}) } className="input" type="text" placeholder='Address' /> <br />
             CV
             <input  type="file" /> <br />
-            Cover Letter
             
             <input className="radio" type="radio" name="gender" value="male" /> Male
             <input className="radio" type="radio" name="gender" value="female" /> Female
             <br /> <br />
+            <button className='popup-btn' onClick={editData} >Submit</button>
             <button className='popup-btn' id='x' onClick={togglePopup}>X</button>
           </div>
                   </div>
