@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/yanitbee/GUDAYHUB12.git/static/css/main.17b2de3e.css",
+    "main.js": "/yanitbee/GUDAYHUB12.git/static/js/main.b8028361.js",
+    "static/media/logo.png": "/yanitbee/GUDAYHUB12.git/static/media/logo.aab8a9ecca4af22ef854.png",
+    "static/media/logo1.jpeg": "/yanitbee/GUDAYHUB12.git/static/media/logo1.35fc239b605f351143bd.jpeg",
+    "static/media/post.svg": "/yanitbee/GUDAYHUB12.git/static/media/post.d6641084e16f81d54a89.svg",
+    "index.html": "/yanitbee/GUDAYHUB12.git/index.html",
+    "main.17b2de3e.css.map": "/yanitbee/GUDAYHUB12.git/static/css/main.17b2de3e.css.map",
+    "main.b8028361.js.map": "/yanitbee/GUDAYHUB12.git/static/js/main.b8028361.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.17b2de3e.css",
+    "static/js/main.b8028361.js"
+  ]
+}
