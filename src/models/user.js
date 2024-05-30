@@ -2,11 +2,11 @@ const { type } = require("@testing-library/user-event/dist/type");
 const mongoose = require("mongoose");
 
 const DataSchema = new mongoose.Schema({
-    content:{
+    Usertype:{
         type: String,
         required: true
     },
-    Usertype:{
+    username:{
         type: String,
         required: true
     },
@@ -33,5 +33,8 @@ const DataSchema = new mongoose.Schema({
     profilepic:{
         type: String,
     },
+    title:{
+        type: String,
+    },
 });
-module.exports = mongoose.model("DataModel", DataSchema);
+module.exports = mongoose.model("users", DataSchema);

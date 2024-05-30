@@ -1,17 +1,21 @@
 import Navbar from "../Navbar";
 import Joblist from "../joblist";
 import Frelancerprofile from "../freelancerprofile";
+import { useLocation } from "react-router-dom";
 
 
 export default function Freelancerpage(){
 
-    let freelancerid = "66421e4c0c979c1c4a5b4919" 
+const location = useLocation()
+
+const {freelacerid}=location.state
+console.log(freelacerid)
 
     return(
         <>
-<Frelancerprofile prop={freelancerid}/>
+<Frelancerprofile prop={freelacerid}/>
  <Navbar/>
- <Joblist prop={freelancerid}/>
+ <Joblist prop={freelacerid}/>
         </>
     )
 }

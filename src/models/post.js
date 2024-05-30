@@ -1,11 +1,8 @@
 const { type } = require("@testing-library/user-event/dist/type");
-const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema({
-    _id:{
-        type: ObjectId,
-    },
+
     Jobtype:{
         type: String,
         required: true
