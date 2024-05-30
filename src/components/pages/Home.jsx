@@ -45,7 +45,7 @@ const Home=()=> {
             <input className="input" type="text" placeholder='Phonenumber' />
             <input className="input" type="email" placeholder='Email' /> 
             <input className="input" type="password" placeholder='Password' /> <br />
-            <input className="radio" type="radio" name="gender" value="male" /> Male
+            <input className="radio" type="radio" name="gender" value="male" /> Male 
             <input className="radio" type="radio" name="gender" value="female" /> Female
             <br /> <br />
             <button className='popup-btn' >Submit</button>
