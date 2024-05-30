@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/GUDAYHUB12/static/css/main.875b5de2.css",
-    "main.js": "/GUDAYHUB12/static/js/main.65fa37f1.js",
+    "main.js": "/GUDAYHUB12/static/js/main.f310e5b4.js",
     "static/media/logo.png": "/GUDAYHUB12/static/media/logo.aab8a9ecca4af22ef854.png",
     "static/media/logo1.jpeg": "/GUDAYHUB12/static/media/logo1.35fc239b605f351143bd.jpeg",
     "static/media/post.svg": "/GUDAYHUB12/static/media/post.d6641084e16f81d54a89.svg",
     "index.html": "/GUDAYHUB12/index.html",
     "main.875b5de2.css.map": "/GUDAYHUB12/static/css/main.875b5de2.css.map",
-    "main.65fa37f1.js.map": "/GUDAYHUB12/static/js/main.65fa37f1.js.map"
+    "main.f310e5b4.js.map": "/GUDAYHUB12/static/js/main.f310e5b4.js.map"
   },
   "entrypoints": [
     "static/css/main.875b5de2.css",
-    "static/js/main.65fa37f1.js"
+    "static/js/main.f310e5b4.js"
   ]
 }
