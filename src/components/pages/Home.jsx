@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import Navbar from "../Navbar";
 
 
 const Home=()=> {
@@ -49,9 +50,9 @@ const Home=()=> {
 
          if(usercheck.username === username && usercheck.Password === password){
           if(usercheck.Usertype=== "employer"){
-          console.log("yes")
+            navigate("employerpage", {state:{freelacerid:usercheck._id }})
           }else if(usercheck.Usertype=== "freelancer"){
-            navigate("freelacerpage", {state:{freelacerid:usercheck._id }})
+            navigate("freelancerpage", {state:{freelacerid:usercheck._id }})
           }
          }else{
 
@@ -94,7 +95,7 @@ const Home=()=> {
 
   return (
     <div id='main'>
-
+ <Navbar/>
       <div className='header-heading'>
       <h2>Connecting Freelancers and Employers</h2>
       <h2><span>By Zagol</span></h2>

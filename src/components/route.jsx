@@ -9,12 +9,13 @@ import Employerpage from "./pages/employerpage"
 
 export default function RouthPath() {
     return (
-      <BrowserRouter  basename={"/gudayhub1"}>
+      <BrowserRouter  basename={"/GUDAYHUB12"}>
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/freelancerpage" element={<Freelancerpage />} />
           <Route path="/freelancerpage/Apply" element={<Apply />} />
           <Route path="/employerpage" element={<Employerpage />} />
+          <Route path="/employerpage/Write" element={<Write />} />
         
 
         </Routes>

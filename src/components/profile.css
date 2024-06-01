@@ -48,3 +48,9 @@ object-fit: cover;
     transition: all 0.5s;
   }
  
+
+  @media(max-width:1100px){
+    .holder{
+      margin-right: 7rem;
+    }
+  }
