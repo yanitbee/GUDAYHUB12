@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Freelancerpage from "./pages/freelancerpage";
 import Apply from "./pages/apply";
-import Write from "./write";
 import Employerpage from "./pages/employerpage"
 import Freelancerdetails from "./freelancerdetails"
 

@@ -16,6 +16,7 @@ app.use(express.static('public'));
 
 const cors = require("cors")
 app.use(cors());
+const router = express.Router();
 
 
 
@@ -48,8 +49,9 @@ app.get("/readfreelancer", (req, res)=>{
 //to write user
 app.post("/writetodatabase", async (req, res)=>{
     try{
-        const {Usertype, Fullname,username, Phonenumber, Email, Password, Gender,profilepic,title} = req.body;
-        const newData = new DataModel({Usertype, Fullname,username, Phonenumber, Email, Password, Gender,profilepic,title})
+        const {Usertype, Fullname,username, Phonenumber, Email, Password, Gender,profilepic,title,freelancerprofile} = req.body;
+        const newData = new DataModel({Usertype, Fullname,username, Phonenumber, Email, Password, Gender,profilepic,title, freelancerprofile})
+        console.log(newData)
         await newData.save();
         res.json({message: "data saved successfully"})
 
@@ -134,11 +136,14 @@ app.get("/search/:id", async (req, res) => {
         return res.status(404).json({ message: "freelancer not found" });
       }
       res.json(freelancer);
+      
     } catch (error) {
       console.error("Error reading post:", error);
       res.status(500).json({ message: "Server error while reading freelancer" });
     }
   });
+
+  
 
   //to write applicant
 
@@ -188,12 +193,10 @@ app.put("/freelancerpicedit/:id", upload.single('file'), async (req, res) => {
     const freelancerid = req.params.id;
     const profilepic = req.file ? `image/${req.file.filename}` : null;
 
-    console.log('Request Body:', req.body);
-    console.log('Uploaded File:', req.file);
-    console.log('Profile Picture Path:', profilepic);
+  
 
     const filter = { _id: freelancerid };
-    const update = { $set: { profilepic: profilepic} };
+    const update = { $set: { 'freelancerprofile.profilepic': profilepic} };
     const updatedFreelancer = await DataModel.findOneAndUpdate(filter, update,{ new: true });
 
     res.status(200).json(updatedFreelancer);
@@ -202,20 +205,74 @@ app.put("/freelancerpicedit/:id", upload.single('file'), async (req, res) => {
     res.status(500).json({ message: "Server error while editing freelancer" });
   }
 });
+
+
+// Ensure upload directory exists
+const uploadDocDir = path.join(__dirname, 'public', 'documents');
+
+if (!fs.existsSync(uploadDocDir)) {
+  console.log(`Directory ${uploadDocDir} does not exist. Creating...`);
+  fs.mkdirSync(uploadDocDir, { recursive: true });
+  console.log(`Directory ${uploadDocDir} created successfully.`);
+} else {
+  console.log(`Directory ${uploadDocDir} already exists.`);
+}
+
+// Configure Multer storage
+const storageDoc = multer.diskStorage({
+  destination: function (req, file, cb) {
+    
+    cb(null, uploadDocDir); // Save files to the 'public/image' folder
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // Save files with unique names
+  }
+});
+
+const uploadDoc = multer({ storage: storageDoc });
 //edit profile for freelancer
 
-app.put("/freelanceredit/:id", upload.single('file'), async (req, res) => {
+app.put("/freelanceredit/:id", uploadDoc.fields([
+  { name: 'cv', maxCount: 1 },
+  { name: 'educationDocs', maxCount: 10 },
+  { name: 'certificationDocs', maxCount: 10 }]), async (req, res) => {
   try {
     const freelancerid = req.params.id;
-    const {title} = req.body;
-    const profilepic = req.file ? `image/${req.file.filename}` : null;
-
-    console.log('Request Body:', req.body);
-    console.log('Uploaded File:', req.file);
-    console.log('Profile Picture Path:', profilepic);
+    const {title,skills, workhistory, description} = req.body;
+    const cvPath = req.files.cv ? `documents/${req.files.cv[0].filename}` : null;
+    const educationDocsPath = req.files.educationDocs ? req.files.educationDocs.map(file => `documents/${file.filename}` ): null;
+    const certificationDocsPath = req.files.certificationDocs ? req.files.certificationDocs.map(file => `documents/${file.filename}`) : null;
+  
 
     const filter = { _id: freelancerid };
-    const update = { $set: { title: title , profilepic: profilepic} };
+    const update = {$set: {}  };
+    if (title) {
+      update.$set['freelancerprofile.title'] = title;
+    }  
+    if (skills) {
+      update.$push = update.$push || {};
+      update.$push['freelancerprofile.skills'] = { $each: Array.isArray(skills) ? skills : [skills] };
+    }  
+    if (workhistory) {
+      update.$push = update.$push || {};
+      update.$push['freelancerprofile.workhistory'] = { $each: Array.isArray(workhistory) ? workhistory : [workhistory] };
+    }  
+    if (description) {
+      update.$set['freelancerprofile.description'] = description;
+    }  
+     if (cvPath) {
+  update.$set['freelancerprofile.cv'] = cvPath;
+}      
+
+if (educationDocsPath) {
+  update.$push = update.$push || {};
+  update.$push['freelancerprofile.additionaldoc.educations'] = { $each: Array.isArray(educationDocsPath) ? educationDocsPath : [educationDocsPath] };
+}    
+
+if (certificationDocsPath) {
+  update.$push = update.$push || {};
+  update.$push['freelancerprofile.additionaldoc.certifications'] = { $each: Array.isArray(certificationDocsPath) ? certificationDocsPath : [certificationDocsPath] };
+}    
     const updatedFreelancer = await DataModel.findOneAndUpdate(filter, update,{ new: true });
 
     res.status(200).json(updatedFreelancer);
@@ -224,6 +281,30 @@ app.put("/freelanceredit/:id", upload.single('file'), async (req, res) => {
     res.status(500).json({ message: "Server error while editing freelancer" });
   }
 });
+
+
+// DELETE specific skill from freelancer's profile
+app.delete('/freelancerdatadelete/:id', async (req, res) => {
+  try {
+    const freelancerId = req.params.id;
+    const  {skillToDelete}  = req.body; // Expecting the skill to delete
+    
+    const filter = { _id: freelancerId };
+    const update = { $pull: { 'freelancerprofile.skills': { $in: skillToDelete} } };
+    console.log(skillToDelete)
+
+    const updatedFreelancer = await DataModel.findOneAndUpdate(filter, update, { new: true });
+
+    res.status(200).json(updatedFreelancer);
+  } catch (error) {
+    console.error("Error deleting freelancer skill:", error);
+    res.status(500).json({ message: "Server error while deleting freelancer skill" });
+  }
+});
+
+module.exports = router;
+
+
 
 
 const PORT = process.env.PORT || 5000;

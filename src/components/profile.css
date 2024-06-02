@@ -1,3 +1,4 @@
+
 .profilepic{
 height: 100%;
 width: 100%;
@@ -16,8 +17,8 @@ border-radius: 50%;
 margin-right: 1rem;
 }
 .profilebox{
+  position: fixed;
     display: flex;
-    position: absolute;
     right: 0;
     z-index: 4;
   }
@@ -47,10 +48,27 @@ object-fit: cover;
     width: 4rem;
     transition: all 0.5s;
   }
- 
 
-  @media(max-width:1100px){
+  .finprofile{
+    border: solid  #97fbfb14 ;
+    margin: 1rem;
+    height: 50px;
+    box-shadow: #97fbfb14  0px 30px 60px -12px inset, #2feeee14 0px 18px 36px -18px inset;
+    cursor: pointer;
+  }
+  .finprofile:hover{
+    box-shadow: #97fbfb14  30px 0px 20px -30px inset, #2feeee14 0px -18px 36px 0px inset;
+  }
+  .finprofile p{
+    top: 50%;
+    text-align: center;
+    color:#3a8a8abd  ;
+  }
+
+  @media (max-width:1100px){ 
     .holder{
-      margin-right: 7rem;
+
+    margin-right: 7rem;
     }
   }
+ 

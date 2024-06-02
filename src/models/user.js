@@ -1,5 +1,12 @@
 const { type } = require("@testing-library/user-event/dist/type");
+const { Double, Int32 } = require("mongodb");
 const mongoose = require("mongoose");
+
+const profileSchema = new mongoose.Schema({
+    profilepic: { type: String, },
+    title: { type: String, },
+
+  }, { _id: false });
 
 const DataSchema = new mongoose.Schema({
     Usertype:{
@@ -35,6 +42,21 @@ const DataSchema = new mongoose.Schema({
     },
     title:{
         type: String,
+    },
+    freelancerprofile:{
+        profilepic: { type: String,default: null },
+         title: { type: String, default: null},
+        skills:{type: [String],default: []},
+        cv:{type: String, default: null},
+        additionaldoc:{educations : { type: [String],default: [] },
+                    certifications: { type: [String], default: []},},
+        gudayhistory:{type:[String],default: []},
+        workhistory:{type:[String],default: []},
+        rating:{type:String, default: null},
+        description:{type:String, default: null},
+        portfolio:{link: { type: String, default: null},
+                     title: { type: String, default: null},},
+
     },
 });
 module.exports = mongoose.model("users", DataSchema);

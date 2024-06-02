@@ -28,20 +28,38 @@ input{
   width: 100px;
   
 }
+
+
+  .popup-contentactive{ 
+ 
+    transition: transform .18s ease;
+  
+    transform: translateY(4%);
+  
+  }
+
+  
+  .popup-content{ 
+ 
+    transition: transform .18s ease;
+  
+    transform: translateY(-49%);
+  
+ 
+  }
+
 .popup{
-  display: flex;
-  align-items: center;
-}
-.popup-content{
+  overflow: hidden;
   width: 450px;
-  height: 500px;
-  margin: -230px;
+  height: 565px;
+ transform: translate(-50%,-50%);
   border-radius: 20px;
   color: #ffffff;
   background-color: rgba(14, 13, 13, 0.815);
   box-shadow: 5px 10px 30px rgba(15, 15, 15, 0.918);
   position: absolute;
   text-align: center;
+  padding: 1rem;
 }
 .h3-register{
   color: #ffffff;
@@ -174,6 +192,7 @@ display: flex;
 box-shadow: 5px 10px 30px rgba(198, 64, 64, 0.411);
 transition: all ease 0.2s;
 }
+
 .active:hover{
   color:#ffffff;
 box-shadow: 5px 10px 30px rgba(198, 64, 64, 0.411);
@@ -210,8 +229,7 @@ font-family: 'Montserrat';
 width: 900px;
 position: absolute;
   left: 50%;
-top: 55%;
-transform: translate(-50%,-55%);
+transform: translate(-50%);
 }
 .header-heading span{
   color: #FF1414;

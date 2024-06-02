@@ -8,14 +8,13 @@ export default function Freelancerpage(){
 
 const location = useLocation()
 
-const {freelacerid}=location.state
-console.log(freelacerid)
+const {freelancerid}=location.state
 
     return(
         <>
-<Frelancerprofile prop={freelacerid}/>
+<Frelancerprofile prop={freelancerid}/>
  <Navbar/>
- <Joblist prop={freelacerid}/>
+ <Joblist prop={freelancerid}/>
         </>
     )
 }
