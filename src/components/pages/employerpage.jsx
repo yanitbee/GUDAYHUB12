@@ -1,5 +1,4 @@
 import Navbar from "../Navbar";
-import Write from "../write";
 import Freelancerlist from "../freelancerlist";
 import Employerprofile from "../employerprofile";
 import { useLocation } from "react-router-dom";

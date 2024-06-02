@@ -4,6 +4,7 @@ import Freelancerpage from "./pages/freelancerpage";
 import Apply from "./pages/apply";
 import Write from "./write";
 import Employerpage from "./pages/employerpage"
+import Freelancerdetails from "./freelancerdetails"
 
 
 
@@ -15,6 +16,7 @@ export default function RouthPath() {
           <Route path="/freelancerpage" element={<Freelancerpage />} />
           <Route path="/freelancerpage/Apply" element={<Apply />} />
           <Route path="/employerpage" element={<Employerpage />} />
+          <Route path="/employerpage/Freelancerdetails" element={<Freelancerdetails />} />
           <Route path="/employerpage/Write" element={<Write />} />
         
 

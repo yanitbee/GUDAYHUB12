@@ -125,7 +125,7 @@ export default function Employerprofile({prop}){
         {employerData.Fullname} <br/>
         {employerData.Email}<br/>
         <input type="text" placeholder="Phonenumber"/> <br /> <br />
-        <input type="email" placeholder="email"/> <br /> <br />
+        <input type="email" placeholder="Email"/> <br /> <br />
             
             <input className="radio" type="radio" name="gender" value="male" /> Male <br />
             <input className="radio" type="radio" name="gender" value="female" /> Female

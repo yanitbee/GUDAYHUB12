@@ -22,7 +22,7 @@ export default function Freelancerlist({prop}){
     let navigate = useNavigate();
 
     const handleclick = (userid) => {
-        navigate("Write", { state: {userid: userid ,employerid:prop}});}
+        navigate("Freelancerdetails", { state: {userid: userid ,employerid:prop}});}
 
         const filteredData = readData.filter((data) => data.Usertype === "freelancer");
 
