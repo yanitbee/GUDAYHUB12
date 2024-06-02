@@ -81,7 +81,7 @@ export default function Apply(){
             <p>Contact: {readData.Contact}</p>
             <p>PostedDate: {readData.PostedDate}</p>
             <p>Deadline: {readData.Deadline}</p>
-            <button  onClick={togglePopup} >apply</button>
+            <button className="apply-btn" onClick={togglePopup} >Apply Now</button>
             <div className="wrapper">
             {popup && (
                 <div className={`form`}>

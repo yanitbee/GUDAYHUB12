@@ -6,6 +6,21 @@ import { useNavigate } from 'react-router-dom';
 const Home=()=> {
  
   const [inputValue, setinputValue] = useState({Usertype: '', Fullname:'', username:'', Phonenumber:"", Email:"", Password:"", Gender:"",});
+
+  const nullvalue = useState({
+    profilepic: null,
+    title: null,
+    skills:null,
+    cv:null,
+    additionaldoc:{educations : null,
+                certifications: null,},
+    gudayhistory:null,
+    workhistory:null,
+    rating:null,
+    description:null,
+    portfolio:{link: null,
+                 title: null,},
+});
   
   let [username, setusername] = useState("")
   let [password, setpassword] = useState("");
@@ -24,8 +39,8 @@ const Home=()=> {
     }
     else{
   try{
-      await axios.post("http://localhost:5000/writetodatabase", {Usertype: inputValue.Usertype,Fullname: inputValue.Fullname,username: inputValue.username,  Phonenumber: inputValue.Phonenumber, Email: inputValue.Email, Password: inputValue.Password, Gender: inputValue.Gender,title: "", profilepic: "", })
-      console.log("data: ", inputValue)
+      await axios.post("http://localhost:5000/writetodatabase", {Usertype: inputValue.Usertype,Fullname: inputValue.Fullname,username: inputValue.username,  Phonenumber: inputValue.Phonenumber, Email: inputValue.Email, Password: inputValue.Password, Gender: inputValue.Gender,title: "", profilepic: "", nullvalue })
+      console.log("data: ", nullvalue)
       setPopup(!popup)
   } catch(error){
       console.log("errorr", error)
@@ -49,13 +64,13 @@ const Home=()=> {
 
          if(usercheck.username === username && usercheck.Password === password){
           if(usercheck.Usertype=== "employer"){
-          console.log("yes")
+            navigate("employerpage", {state:{employerid:usercheck._id }})
           }else if(usercheck.Usertype=== "freelancer"){
-            navigate("freelacerpage", {state:{freelacerid:usercheck._id }})
+            navigate("freelancerpage", {state:{freelancerid:usercheck._id }})
           }
          }else{
 
-          console.log("no")
+          alert("error loging in ckeck your credentials")
          }
          
         }
@@ -101,11 +116,23 @@ const Home=()=> {
       
       <div className='header-btns'>
         <button className='header-btn' onClick={togglePopup}>Register Now</button>
-      <div className="wrapper">
+      <div className={`wrapper`}>
       {popup && (
-        <div className={`popup${action}`}>
+        <div className={`popup`}>
         <div onClick={togglePopup} className="overlay"></div>
-          <div className="popup-content">
+          <div className={`popup-content${action}`}>
+          <div className="login-popup">
+        <h3 className="h3-login">LogIn</h3>
+        <input className="input" type="text" placeholder='Username' 
+        onChange={e=>setusername(e.target.value)}/> 
+            <input className="input" type="password" placeholder='Password'
+             onChange={e=>setpassword(e.target.value)} /> <br />
+            <button className='popup-btn' onClick={forLogin}>LogIn</button>
+            <p>Don't have an account. <a href="#" onClick={registerLink}>Register</a></p>
+            <button className='popup-btn' id='x' onClick={togglePopup}>X</button>
+        </div>
+        <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+
             <h3 className="h3-register">Register</h3>
             <input type="radio" name="user" value="freelancer" 
             onChange={e=>setinputValue({...inputValue, Usertype:e.target.value})}/> Freelancer
@@ -136,19 +163,10 @@ const Home=()=> {
             <button className='popup-btn' onClick={saveData}  >Submit</button>
             <p>Already have an account. <a href="#" onClick={loginLink}>LogIn</a></p>
             <button className='popup-btn' id='x' onClick={togglePopup}>X</button>
-          </div>
-        <div className="login-popup">
-        <h3 className="h3-login">LogIn</h3>
-        <input className="input" type="text" placeholder='Username' 
-        onChange={e=>setusername(e.target.value)}/> 
-            <input className="input" type="password" placeholder='Password'
-             onChange={e=>setpassword(e.target.value)} /> <br />
-            <button className='popup-btn' onClick={forLogin}>LogIn</button>
-            <p>Don't have an account. <a href="#" onClick={registerLink}>Register</a></p>
-            <button className='popup-btn' id='x' onClick={togglePopup}>X</button>
-        </div>
-      </div>
+            
 
+      </div>
+      </div>
          
       )}
       </div> 

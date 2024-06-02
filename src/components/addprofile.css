@@ -1,0 +1,92 @@
+
+
+.addp-content{ 
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%,-50%);
+    width: 700px;
+    padding: 2rem;
+    color: #ffffff;
+    background-color: rgba(14, 13, 13, 0.815);
+    box-shadow: 5px 10px 30px rgba(15, 15, 15, 0.918);
+    text-align: center;
+    z-index: 4;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.firstpage{
+    display: inline;
+    transition: transform .18s ease;
+    transform: translateX(0);
+}
+.firstpagesecond{
+    display: inline;
+    transition: transform .18s ease;
+    transform: translateX(-150%);
+}
+
+.firstpageactive{
+    transition: transform .18s ease;
+    transform: translateX(-145%);
+}
+.secondpagesecond{
+    transition: transform .18s ease;
+    transform: translateX(-200%);
+}
+.secondpageactive{
+    transition: transform .18s ease;
+    transform: translateX(-92%);
+}
+.secondpage{
+    transition: transform .18s ease;
+    display: inline;
+    transform: translateX(150%);
+}
+
+.thirdpagesecond{
+    transition: transform .18s ease;
+    display: inline;
+    transform: translateX(-350%);
+    
+}
+.thirdpage{
+    display: inline;
+    
+}
+.parent-skill{
+    width: 600px;
+ 
+}
+.skills{
+    cursor: pointer;
+    position: relative;
+    border: solid 1px;
+    width: 100px;
+    margin: 1rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-top: .3rem;
+    border-radius: 20%;
+    background-color: rgba(73, 154, 149, 0.61);
+    color: black;
+    display: inline;
+}
+.delete:hover{
+    
+    transform: scale(1.2);
+}
+.delete{
+    width: .7rem;
+}
+.add{
+    width: .9rem;
+    margin-left: -2.5rem;
+    color: black;
+}
+.add:hover{
+    
+    transform: scale(1.2);
+}

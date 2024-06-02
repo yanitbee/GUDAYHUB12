@@ -37,6 +37,7 @@ export default function Joblist({prop}){
          <p className="title">{data.Jobtitle}</p>
          <h3 className="text">Location </h3>
          <p className="title">{data.location}</p>
+         <button className="btn-job">More Information</button>
           </div>
         ))}
          </div>

@@ -1,13 +1,37 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./profile.css"
+import Addprofile from "./addprofile";
 
 export default function Frelancerprofile({prop}){
   const [inputValue, setinputValue] = useState({title: ''})
+  const [ShowAddProfile,setShowAddProfile] = useState(false)
 
   const inputref = useRef(null)
-  const [freelancerData, setfreelancerData] = useState([]);
- 
+  const [freelancerData, setfreelancerData] = useState({Usertype: null,
+username:null,
+Fullname:null,
+Phonenumber:null,
+Email:null,
+Password:null,
+Gender:null,
+profilepic:null,
+title:null,
+freelancerprofile:{
+    profilepic: null,
+    title: null,
+    skills:null,
+    cv:null,
+    additionaldoc:{educations : null,
+                certifications: null,},
+    gudayhistory:null,
+    workhistory:null,
+    rating:null,
+    description:null,
+    portfolio:{link: null,
+                 title: null,},
+},});
+
 
     const handleImage = () =>{
         inputref.current.click();
@@ -21,6 +45,13 @@ export default function Frelancerprofile({prop}){
         }
         
     }
+
+   const addpro = () =>{
+    
+      setShowAddProfile(!ShowAddProfile);
+      setPopup(!popup)
+    
+   }
 
     
     useEffect(() => {
@@ -43,7 +74,7 @@ export default function Frelancerprofile({prop}){
         const formData = new FormData();
         formData.append('file', file);
         try {
-          const response =  await axios.put(`http://localhost:5000/freelancerpicedit/${prop}`,  formData,
+          await axios.put(`http://localhost:5000/freelancerpicedit/${prop}`,  formData,
           {  headers: {
           'Content-Type': 'multipart/form-data'
         }})
@@ -90,19 +121,32 @@ export default function Frelancerprofile({prop}){
     return(
         <>
         <div>
+         {ShowAddProfile && <Addprofile prop={freelancerData}
+                                          prop2 ={addpro} />}
+         </div>
+        <div>
         <div className="holder end-0">
-        {freelancerData && (
+         {freelancerData === null 
+         ?
+         <img 
+         onClick={togglePopup}
+         className="profilepic " 
+         src={ `${process.env.PUBLIC_URL}/image/profile.jpg`} 
+         alt="Profile"
+       />
+        : 
+      <img 
+      onClick={togglePopup}
+      className="profilepic " 
+      src={freelancerData.freelancerprofile.profilepic === "" || freelancerData.freelancerprofile.profilepic===null 
+      ? `${process.env.PUBLIC_URL}/image/profile.jpg`
+      : `${process.env.PUBLIC_URL}/${freelancerData.freelancerprofile.profilepic}`
+    } 
+      alt="Profile"
+    />
+      }
+        
           
-          <img 
-          onClick={togglePopup}
-          className="profilepic " 
-          src={freelancerData.profilepic === "" || freelancerData.profilepic===null 
-                ? `${process.env.PUBLIC_URL}/image/profile.jpg`
-                : `${process.env.PUBLIC_URL}/${freelancerData.profilepic}`
-              } 
-          alt="Profile"
-        />
-       )}
        </div> 
                    <div className="wrapper ">
             {popup && (
@@ -112,9 +156,9 @@ export default function Frelancerprofile({prop}){
                         <div className="pholder  "  onClick={handleImage}>
                     <img 
           className="ppic " 
-          src={freelancerData.profilepic === "" || freelancerData.profilepic===null
-                ? `${process.env.PUBLIC_URL}/image/profile.jpg` 
-                : `${process.env.PUBLIC_URL}/${freelancerData.profilepic}`
+          src={freelancerData.freelancerprofile.profilepic === "" || freelancerData.freelancerprofile.profilepic===null 
+                ? `${process.env.PUBLIC_URL}/image/profile.jpg`
+                : `${process.env.PUBLIC_URL}/${freelancerData.freelancerprofile.profilepic}`
               } 
           alt="Profile"
         /> 
@@ -124,6 +168,14 @@ export default function Frelancerprofile({prop}){
         <br/>
         {freelancerData.Fullname} <br/>
         {freelancerData.Email}<br/>
+   {freelancerData &&(
+       freelancerData.freelancerprofile?.title === null || freelancerData.freelancerprofile?.skills===null ||freelancerData.freelancerprofile?.workhistory===null ||freelancerData.freelancerprofile?.description === null ||freelancerData.freelancerprofile.portfolio?.link === null  
+       ? <div className="finprofile" onClick={addpro}>
+          <p>Finish creating your profile </p>
+        </div>
+        :null
+
+)}
 
             <input  onChange={e => setinputValue({ ...inputValue, title: e.target.value}) } className="input" type="text" placeholder='Address' /> <br />
             CV
