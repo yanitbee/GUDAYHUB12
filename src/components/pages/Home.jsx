@@ -286,20 +286,6 @@ const Home=()=> {
           }
         </section>
       </Element>
-      <Element>
-        <section>
-          {
-            <div id='developers'>
-              <h4>Developers</h4>
-              <p>yanit haftom</p>
-              <p>sosena abera</p>
-              <p>bontu temesgen</p>
-              <p>yanet kassahun</p>
-              <p>samson bayisa</p>
-            </div>
-          }
-        </section>
-      </Element>
     </div>
 
   )
