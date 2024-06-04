@@ -2,29 +2,120 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./joblist.css" 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch,faPlus,faMinus,faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default function Joblist({prop}){
     const [readData, setreadData] = useState([]);
+   const [jobtype,setjobtype] =useState("")
+const [serach,setsearch] = useState("")
+    let defalutjobtype =["onsite","remote","hybrid" ]
+    const[searchicon,setsearchicon] = useState("")
+
+    const searchclicked =()=>{
+      setsearchicon("active")
+    }
+    const searchclickednot= ()=>{
+      setsearchicon("")
+    }
+
+    const handlejobtype = (type)=>{
+      setjobtype( type)
+      console.log(jobtype)
+
+    }
+    const handlejobtyped =()=>{
+      setjobtype("")
+    }
+
+    const handelsearch =(e) =>{
+      setsearch(e.target.value)
+    }
+
+    const isempty = (arr) =>{
+      if( arr.length === 0){
+      return false;
+      }else{
+        return true;
+      }
+    } 
+    
 
     useEffect(() => {
       const fetchData = async () => {
         try {
-         axios .get("http://localhost:5000/readpost")
+         await axios.get("http://localhost:5000/readpost" ,{
+          params: {search:jobtype , serachtitle:serach}})
             .then((postModel) => setreadData(postModel.data));
+            
         } catch (error) {
           console.error("error", error);
         }
       };
       fetchData();
-    }, []);
+    }, [jobtype,serach]);
+
+
 
     let navigate = useNavigate();
 
     const handleclick = (postid) => {
         navigate("Apply", { state: {postid: postid ,freelancerid:prop}});}
+        
 
     return(
        <>
+     
+       <div className="jobparent">
+        <div className={`serachparent`}>
+       <FontAwesomeIcon className={`search${searchicon} end-0`} icon={faSearch}  /> 
+       <input className={`another${searchicon} end-0`} type="text" placeholder="   serach job"
+              onChange={handelsearch}
+              onClick={searchclicked}
+           />
+           </div>
+     <div class={`sidebar${searchicon} end-0`}>
+  
+<FontAwesomeIcon className={`arrow start-0`} icon={faArrowRight} 
+     onClick={searchclickednot} /> 
+     <br/>  <br/>
+            <div className="type">
+      Job Title <br/>
+     {defalutjobtype.map((type) =>
+    <>       
+               <div className='skills'>
+                <FontAwesomeIcon className='delete' icon={faPlus} /> 
+               {type} 
+               </div>
+                
+                </>
+            ) } 
+     </div>
+      <br/>
+     <div className="type">
+      Job Type <br/>
+     {defalutjobtype.map((type) =>
+            jobtype === type ?
+                   <>       
+                     <div className='skills' onClick={handlejobtyped}>
+                      <FontAwesomeIcon className='delete' icon={faMinus} /> 
+                     {type} 
+                     </div>
+                      
+                      </>
+                      : <>       
+                      <div className='skills'  onClick={() => {handlejobtype(type)}}>
+                       <FontAwesomeIcon className='delete' icon={faPlus} /> 
+                      {type} 
+                      </div>
+                       
+                       </>
+            
+            ) } 
+     </div>
+     </div> 
+     {isempty(readData) ?
     <div >
        {readData.map((data) => (
         <div onClick={() => handleclick(data._id)} className="postblock">
@@ -41,6 +132,15 @@ export default function Joblist({prop}){
           </div>
         ))}
          </div>
+         : 
+         <div className="nojob">
+           <img 
+           src={`${process.env.PUBLIC_URL}/image/nojob.png`}/>
+         </div>
+         }
+         </div>
+
+
        </>
     )
 }

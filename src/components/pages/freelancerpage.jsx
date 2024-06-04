@@ -1,5 +1,6 @@
 import Navbar from "../Navbar";
 import Joblist from "../joblist";
+
 import Frelancerprofile from "../freelancerprofile";
 import { useLocation } from "react-router-dom";
 
@@ -14,7 +15,9 @@ const {freelancerid}=location.state
         <>
 <Frelancerprofile prop={freelancerid}/>
  <Navbar/>
+ 
  <Joblist prop={freelancerid}/>
+ 
         </>
     )
 }

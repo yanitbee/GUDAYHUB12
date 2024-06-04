@@ -16,7 +16,7 @@ app.use(express.static('public'));
 
 const cors = require("cors")
 app.use(cors());
-const router = express.Router();
+
 
 
 
@@ -85,9 +85,14 @@ app.post("/writepost", async (req, res)=>{
 
 //to read job
 
-app.get("/readpost", (req, res)=>{
+app.get("/readpost", async (req, res)=>{
     try{
-        postModel.find()
+      const search =req.query.search;
+      const searchtitle =req.query.serachtitle;
+
+      await postModel.find({Jobtype: {$regex: search,$options:"i"} , 
+      Jobtitle: {$regex: searchtitle,$options:"i"} })
+      
     .then(postModel => res.json(postModel))
     
     }catch (error){
@@ -96,6 +101,8 @@ app.get("/readpost", (req, res)=>{
 
     }
 })
+
+
 
 //to serach job  with id
 
@@ -230,7 +237,7 @@ app.put("/freelanceredit/:id", uploadDoc.fields([
     const educationDocsPath = req.files.educationDocs ? req.files.educationDocs.map(file => `documents/${file.filename}` ): null;
     const certificationDocsPath = req.files.certificationDocs ? req.files.certificationDocs.map(file => `documents/${file.filename}`) : null;
   
-
+console.log(req.body)
     const filter = { _id: freelancerid };
     const update = {$set: {}  };
     if (title) {
@@ -245,6 +252,7 @@ app.put("/freelanceredit/:id", uploadDoc.fields([
       update.$push['freelancerprofile.workhistory'] = { $each: Array.isArray(workhistory) ? workhistory : [workhistory] };
     }  
     if (description) {
+      update.$push = update.$push || {};
       update.$set['freelancerprofile.description'] = description;
     }  
      if (cvPath) {
@@ -274,11 +282,18 @@ if (certificationDocsPath) {
 app.delete('/freelancerdatadelete/:id', async (req, res) => {
   try {
     const freelancerId = req.params.id;
-    const  {skillToDelete}  = req.body; // Expecting the skill to delete
+    const  {skillToDelete , workdelete}  = req.body; // Expecting the skill to delete
     
     const filter = { _id: freelancerId };
-    const update = { $pull: { 'freelancerprofile.skills': { $in: skillToDelete} } };
-    console.log(skillToDelete)
+    const update = {$set: {}  };
+    if(skillToDelete){
+      update.$pull = update.$pull || {};
+    update.$pull['freelancerprofile.skills'] = { $in: skillToDelete}  ;
+    }
+    if(workdelete){
+      update.$pull = update.$pull || {};
+     update.$pull['freelancerprofile.workhistory'] = { $in: workdelete} 
+    }
 
     const updatedFreelancer = await DataModel.findOneAndUpdate(filter, update, { new: true });
 
@@ -289,7 +304,7 @@ app.delete('/freelancerdatadelete/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+
 
 
 
