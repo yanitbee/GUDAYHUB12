@@ -92,11 +92,9 @@ const showprepage = () =>{
  
 
     const remove =() =>{
-      if (confirm("changes you have made will be lost")) {
+      
         prop.prop2()
-      } else {
-        console.log("okay")
-      }
+     
     
         
     }

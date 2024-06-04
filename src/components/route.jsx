@@ -4,6 +4,7 @@ import Freelancerpage from "./pages/freelancerpage";
 import Apply from "./pages/apply";
 import Employerpage from "./pages/employerpage"
 import Freelancerdetails from "./freelancerdetails"
+import Write from "./write"
 
 
 
