@@ -33,6 +33,19 @@ app.get("/readfromserver", (req, res)=>{
     }
 })
 
+//to read freelancer
+app.get("/readfreelancer", (req, res)=>{
+  try{
+  DataModel.find()
+  .then(DataModel => res.json(DataModel))
+  
+  }catch (error){
+      console.log("errorr", error.message)
+      res.status(500).send("server error while reading freelancer")
+
+  }
+})
+
 //to write user
 app.post("/writetodatabase", async (req, res)=>{
     try{
@@ -298,3 +311,48 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>{
     console.log(`server is running on PORT: ${PORT}`);
 })
+
+//to edit profil pic for employer
+
+
+app.put("/employerpicedit/:id", upload.single('file'), async (req, res) => {
+  try {
+    const employerid = req.params.id;
+    const profilepic = req.file ? `image/${req.file.filename}` : null;
+
+    console.log('Request Body:', req.body);
+    console.log('Uploaded File:', req.file);
+    console.log('Profile Picture Path:', profilepic);
+
+    const filter = { _id: employerid };
+    const update = { $set: { profilepic: profilepic} };
+    const updatedEmployer = await DataModel.findOneAndUpdate(filter, update,{ new: true });
+
+    res.status(200).json(updatedEmployer);
+  } catch (error) {
+    console.error("Error reading post:", error);
+    res.status(500).json({ message: "Server error while editing employer" });
+  }
+});
+//edit profile for employer
+
+app.put("/employeredit/:id", upload.single('file'), async (req, res) => {
+  try {
+    const employerid = req.params.id;
+    const {title} = req.body;
+    const profilepic = req.file ? `image/${req.file.filename}` : null;
+
+    console.log('Request Body:', req.body);
+    console.log('Uploaded File:', req.file);
+    console.log('Profile Picture Path:', profilepic);
+
+    const filter = { _id: employerid };
+    const update = { $set: { title: title , profilepic: profilepic} };
+    const updatedEmployer = await DataModel.findOneAndUpdate(filter, update,{ new: true });
+
+    res.status(200).json(updatedEmployer);
+  } catch (error) {
+    console.error("Error reading post:", error);
+    res.status(500).json({ message: "Server error while editing employer" });
+  }
+});
