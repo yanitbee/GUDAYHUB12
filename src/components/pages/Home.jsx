@@ -212,7 +212,7 @@ const Home=()=> {
         <div className='about-text'>
       <h1>About Us</h1>
       <p>wooooooooooooooooooo</p>
-      <button>read more</button>
+      <button>Read More</button>
         </div>
           </div>
           }
@@ -283,20 +283,6 @@ const Home=()=> {
 
             </div>
             
-          }
-        </section>
-      </Element>
-      <Element>
-        <section>
-          {
-            <div id='developers'>
-              <h4>Developers</h4>
-              <p>yanit haftom</p>
-              <p>sosena abera</p>
-              <p>bontu temesgen</p>
-              <p>yanet kassahun</p>
-              <p>samson bayisa</p>
-            </div>
           }
         </section>
       </Element>

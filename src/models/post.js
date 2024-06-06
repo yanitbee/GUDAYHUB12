@@ -1,47 +1,48 @@
-const { type } = require("@testing-library/user-event/dist/type");
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types;
 
 const PostSchema = new mongoose.Schema({
-    Jobtype:{
+    Jobtype: {
         type: String,
         required: true
     },
-    Jobtitle:{
+    Jobtitle: {
         type: String,
         required: true
     },
-    Description:{
+    Description: {
         type: String,
     },
-    Qualification:{
+    Qualification: {
         type: String,
     },
-    PostedDate:{
-        type: String,
-        required: true
-    },  
-    Deadline:{
+    PostedDate: {
         type: String,
         required: true
     },  
-    Salary:{
+    Deadline: {
+        type: String,
+        required: true
+    },  
+    Salary: {
         type: String,
         required: true
     },
-    Contact:{
+    Contact: {
         type: String,
         required: true
     },
-    location:{
+    location: {
         type: String,
         required: true
     },
-    urgency:{
+    urgency: {
         type: Boolean,
         required: true
     },
-    employer:{
-        type:String
-    } 
+    employer: {
+        type: String
+    }
 });
-module.exports = mongoose.model("post", PostSchema);
+
+module.exports = mongoose.model("Post", PostSchema);

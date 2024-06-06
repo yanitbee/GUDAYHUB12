@@ -150,7 +150,21 @@ app.get("/search/:id", async (req, res) => {
     }
   });
 
+  //
+  app.get("/readjobapplicant", async (req, res)=>{
+    try{
+      const employerid =req.query.id;
+      const filter = { _id: employerid };
+      await postModel.find(filter )
+      
+    .then(postModel => res.json(postModel))
+    console.log(employerid)
+    }catch (error){
+        console.log("errorr", error.message)
+        res.status(500).send("server error while reading post")
   
+    }
+  })
 
   //to write applicant
 
@@ -167,6 +181,29 @@ app.get("/search/:id", async (req, res) => {
 
     }
 })
+
+//to read applicant
+
+app.get("/readapplicant", async (req, res)=>{
+  try{
+    const postid = req.params.id;
+    const filter = { _id: postid };
+    console.log("Post ID:", postid);
+     await ApplicantModel.find({filter})
+
+    .then(ApplicantModel => res.json(ApplicantModel))
+
+  
+  }catch (error){
+      console.log("errorr", error.message)
+      res.status(500).send("server error while reading applicant")
+      
+  }
+})
+
+
+
+
 
 // Ensure upload directory exists
 const uploadDir = path.join(__dirname, 'public', 'image');

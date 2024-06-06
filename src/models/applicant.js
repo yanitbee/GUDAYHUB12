@@ -14,5 +14,6 @@ const ApplicantSchema = new mongoose.Schema({
     Coverletter:{
         type: String,
     },
+    
 });
 module.exports = mongoose.model("applicant", ApplicantSchema);
