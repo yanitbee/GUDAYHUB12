@@ -56,7 +56,9 @@ const DataSchema = new mongoose.Schema({
         description:{type:String, default: null},
         portfolio:{link: { type: String, default: null},
                      title: { type: String, default: null},},
-
+                     employerprofile:{
+                        profilepic: { type: String,default: null }
+                     }
     },
 });
 module.exports = mongoose.model("users", DataSchema);
