@@ -406,44 +406,58 @@ app.listen(PORT, () =>{
 //to edit profil pic for employer
 
 
+// New routes for employer profile
+
+app.get("/employerapply/:id", async (req, res) => {
+  try {
+    const employerid = req.params.id;
+    const employer = await DataModel.findById(employerid);
+    if (!employer) {
+      return res.status(404).json({ message: "Employer not found" });
+    }
+    res.json(employer);
+  } catch (error) {
+    console.error("Error fetching employer", error);
+    res.status(500).json({ message: "Server error while fetching employer" });
+  }
+});
+
 app.put("/employerpicedit/:id", upload.single('file'), async (req, res) => {
   try {
     const employerid = req.params.id;
     const profilepic = req.file ? `image/${req.file.filename}` : null;
 
-    console.log('Request Body:', req.body);
-    console.log('Uploaded File:', req.file);
-    console.log('Profile Picture Path:', profilepic);
-
     const filter = { _id: employerid };
-    const update = { $set: { profilepic: profilepic} };
-    const updatedEmployer = await DataModel.findOneAndUpdate(filter, update,{ new: true });
+    const update = { $set: { profilepic: profilepic } };
+    const updatedEmployer = await DataModel.findOneAndUpdate(filter, update, { new: true });
 
     res.status(200).json(updatedEmployer);
   } catch (error) {
-    console.error("Error reading post:", error);
-    res.status(500).json({ message: "Server error while editing employer" });
+    console.error("Error editing employer picture", error);
+    res.status(500).json({ message: "Server error while editing employer picture" });
   }
 });
-//edit profile for employer
 
-app.put("/employeredit/:id", upload.single('file'), async (req, res) => {
+app.put("/employeredit/:id", async (req, res) => {
   try {
     const employerid = req.params.id;
-    const {title} = req.body;
-    const profilepic = req.file ? `image/${req.file.filename}` : null;
-
-    console.log('Request Body:', req.body);
-    console.log('Uploaded File:', req.file);
-    console.log('Profile Picture Path:', profilepic);
+    const { fullname, email, phonenumber, gender, title } = req.body;
 
     const filter = { _id: employerid };
-    const update = { $set: { title: title , profilepic: profilepic} };
-    const updatedEmployer = await DataModel.findOneAndUpdate(filter, update,{ new: true });
+    const update = {
+      $set: {
+        fullname: fullname,
+        email: email,
+        phonenumber: phonenumber,
+        gender: gender,
+        title: title,
+      }
+    };
+    const updatedEmployer = await DataModel.findOneAndUpdate(filter, update, { new: true });
 
     res.status(200).json(updatedEmployer);
   } catch (error) {
-    console.error("Error reading post:", error);
-    res.status(500).json({ message: "Server error while editing employer" });
+    console.error("Error editing employer profile", error);
+    res.status(500).json({ message: "Server error while editing employer profile" });
   }
 });
