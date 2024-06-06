@@ -6,8 +6,8 @@ import Employerpage from "./pages/employerpage"
 import Freelancerdetails from "./freelancerdetails"
 import Write from "./write"
 import Taskmanager from "./pages/taskmanager";
-import Navbar from "./Navbar";
 
+import Applicantsdetails from "./applicantsdetails"
 
 
 
@@ -24,6 +24,7 @@ export default function RouthPath() {
           <Route path="/employerpage" element={<Employerpage />} />
           <Route path="/employerpage/Freelancerdetails" element={<Freelancerdetails />} />
           <Route path="/employerpage/Write" element={<Write />} />
+          <Route path="/employerpage/Applicantsdetails" element={<Applicantsdetails />} />
         
 
         </Routes>
