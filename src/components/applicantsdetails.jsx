@@ -23,44 +23,14 @@ export default function Applicantsdetails({prop}){
         }
       };
       fetchData();
-    }, []);
-    console.log("employer ID:", employerid);
+    }, [employerid]);
+
+    
    
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios
-          .get("http://localhost:5000/readapplicant")
-          .then((ApplicantModel) => setreadData(ApplicantModel.data));
-      } catch (error) {
-        console.error("error", error);
-      }
-    };
-    fetchData();
-  }, []);
-  const handlesetpostid = (type)=>{
-    setpostid( type)
 
-  }
-  const handlejobtyped =()=>{
-    setpostid("")
-  }
+ 
   console.log("Post ID:", postid);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-       await axios.get("http://localhost:5000/readapplicant" ,{
-        params: {id:{postid}}})
-          .then((ApplicantModel) => setreadData(ApplicantModel.data));
-          
-      } catch (error) {
-        console.error("error", error);
-      }
-    };
-    fetchData();
-  }, []);
 
     let navigate = useNavigate();
 

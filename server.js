@@ -149,12 +149,12 @@ app.get("/search/:id", async (req, res) => {
     }
   });
 
-  //
+  //job employer has posted
   app.get("/readjobapplicant", async (req, res)=>{
     try{
-      const employerid =req.query.id;
-      const filter = { _id: employerid };
-      await postModel.find(filter )
+      const employerid =req.query.employerid;
+    
+      await postModel.find({employerid: employerid} )
       
     .then(postModel => res.json(postModel))
     console.log(employerid)
@@ -164,6 +164,7 @@ app.get("/search/:id", async (req, res) => {
   
     }
   })
+
 
   //to write applicant
 

@@ -44,7 +44,7 @@ const PostSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
-    employer: {
+    employerid: {
         type: String
     }
 });
