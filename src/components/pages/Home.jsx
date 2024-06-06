@@ -212,7 +212,7 @@ const Home=()=> {
         <div className='about-text'>
       <h1>About Us</h1>
       <p>wooooooooooooooooooo</p>
-      <button>read more</button>
+      <button>Read More</button>
         </div>
           </div>
           }

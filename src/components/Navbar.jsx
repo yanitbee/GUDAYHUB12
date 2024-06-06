@@ -55,7 +55,7 @@ const Navbar = () => {
           <>
             <li><RouterLink to='/'>Home</RouterLink></li>
             <li><RouterLink to="/employerpage/Write">Post</RouterLink></li>
-            <li><RouterLink to="/applicants">Applicants</RouterLink></li>
+            <li><RouterLink to="/employerpage/Applicantsdetails">Applicants</RouterLink></li>
             <li><ConfirmLink to="/" message="Are you sure you want to log out?">LogOut</ConfirmLink></li>
           </>
         );
