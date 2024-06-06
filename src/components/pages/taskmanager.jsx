@@ -34,11 +34,18 @@ export default function Taskmanager(){
 {isempty(readData) ?
     <div >
        {readData.map((data) => (
-<>
-{data.postid}
-{data.Coverletter}
-</>
-))}
+         <div  className="freelist" >
+             <div>
+             <h3 className="textf">Job title </h3>
+          <p className="titlef">{data.postid}</p>
+          </div>
+             <h3 className="textf">Job type </h3>
+          <p className="titlef">{data.Jobtype}</p>
+          <h3 className="textf">Cover Letter </h3>
+          <p className="titlef">{data.Coverletter}</p>
+           </div>
+         ))}
+
  </div>
   : 
 <div>aaa</div>

@@ -84,9 +84,10 @@ app.get("/login/:username", async (req, res) => {
 
 app.post("/writepost", async (req, res)=>{
     try{
-        const { JobTask,Jobtype, Jobtitle, Description, Qualification, PostedDate, Deadline, Salary, Contact, location, urgency, employer } = req.body;
-        const newPost = new postModel({JobTask,  Jobtype, Jobtitle, Description, Qualification, PostedDate, Deadline, Salary, Contact, location, urgency, employer })
+        const { JobTask,Jobtype, Jobtitle, Description, Qualification, PostedDate, Deadline, Salary, Contact, location, urgency, employerid } = req.body;
+        const newPost = new postModel({JobTask,  Jobtype, Jobtitle, Description, Qualification, PostedDate, Deadline, Salary, Contact, location, urgency, employerid })
         await newPost.save();
+        console.log(req.body)
         res.json({message: "post saved successfully"})
 
     }catch (error){
@@ -150,7 +151,7 @@ app.get("/search/:id", async (req, res) => {
   });
 
   //job employer has posted
-  app.get("/readjobapplicant", async (req, res)=>{
+  app.get("/reademployerpost", async (req, res)=>{
     try{
       const employerid =req.query.employerid;
     
@@ -162,6 +163,22 @@ app.get("/search/:id", async (req, res) => {
         console.log("errorr", error.message)
         res.status(500).send("server error while reading post")
   
+    }
+  })
+
+//shows applicant to employer
+  app.get("/readjobapplicant", async (req, res)=>{
+    try{
+      const postid = req.query.postid;
+       await ApplicantModel.find({postid:postid})
+  
+      .then(ApplicantModel => res.json(ApplicantModel))
+  
+    
+    }catch (error){
+        console.log("errorr", error.message)
+        res.status(500).send("server error while reading applicant")
+        
     }
   })
 

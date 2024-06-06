@@ -2,17 +2,18 @@ import { useState } from "react";
 import axios from "axios";
 import "./write.css"
 
-export default function Write(){
+export default function Write({prop}){
     const [inputValue, setinputValue] = useState({JobTask:'',Jobtype: '', Jobtitle:'', Description:"", Qualification:"", PostedDate:"", Deadline:"", Salary:"", Contact:"", location:"", urgency:""});
     
     const saveData = async () => {
     try{
-        await axios.post("http://localhost:5000/writepost", {JobTask:inputValue.JobTask, Jobtype: inputValue.Jobtype,Jobtitle: inputValue.Jobtitle, Description: inputValue.Description, Qualification: inputValue.Qualification, PostedDate: inputValue.PostedDate, Deadline: inputValue.Deadline, Salary: inputValue.Salary, Contact: inputValue.Contact, location: inputValue.location, urgency: inputValue.urgency })
+        await axios.post("http://localhost:5000/writepost", {JobTask:inputValue.JobTask, Jobtype: inputValue.Jobtype,Jobtitle: inputValue.Jobtitle, Description: inputValue.Description, Qualification: inputValue.Qualification, PostedDate: inputValue.PostedDate, Deadline: inputValue.Deadline, Salary: inputValue.Salary, Contact: inputValue.Contact, location: inputValue.location, urgency: inputValue.urgency, employerid:prop })
         console.log("data: ", inputValue)
     } catch(error){
         console.log("errorr", error)
     }
     }
+    console.log(prop)
     
     return(
         < div className="postimg">

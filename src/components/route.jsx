@@ -4,10 +4,11 @@ import Freelancerpage from "./pages/freelancerpage";
 import Apply from "./pages/apply";
 import Employerpage from "./pages/employerpage"
 import Freelancerdetails from "./freelancerdetails"
+import Posthistory from "./posthistory";
 import Write from "./write"
 import Taskmanager from "./pages/taskmanager";
+import Applicantsdetails from "./pages/applicantsdetails";
 
-import Applicantsdetails from "./applicantsdetails"
 
 
 
@@ -24,8 +25,8 @@ export default function RouthPath() {
           <Route path="/employerpage" element={<Employerpage />} />
           <Route path="/employerpage/Freelancerdetails" element={<Freelancerdetails />} />
           <Route path="/employerpage/Write" element={<Write />} />
-          <Route path="/employerpage/Applicantsdetails" element={<Applicantsdetails />} />
-        
+          <Route path="/employerpage/Applicantsdetails" element={<Posthistory />} />
+          <Route path="/employerpage/Applicantsdetails/more" element={<Applicantsdetails />} />
 
         </Routes>
       </BrowserRouter>

@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 
 const PostSchema = new mongoose.Schema({
+    _id:{
+        type:ObjectId,
+    },
     JobTask:{
         type: String,
         required: true
@@ -45,7 +48,7 @@ const PostSchema = new mongoose.Schema({
         required: true
     },
     employerid: {
-        type: String
+        type: ObjectId
     }
 });
 

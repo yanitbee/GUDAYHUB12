@@ -153,7 +153,7 @@ freelancerprofile:{
                 <div className={`profilebox `}>
                     <div className="profile-content">
 
-                        <div className="pholder  "  onClick={handleImage}>
+                        <div className="pholder "  onClick={handleImage}>
                     <img 
           className="ppic " 
           src={freelancerData.freelancerprofile.profilepic === "" || freelancerData.freelancerprofile.profilepic===null 
