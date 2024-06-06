@@ -3,11 +3,11 @@ import axios from "axios";
 import "./write.css"
 
 export default function Write(){
-    const [inputValue, setinputValue] = useState({Jobtype: '', Jobtitle:'', Description:"", Qualification:"", PostedDate:"", Deadline:"", Salary:"", Contact:"", location:"", urgency:""});
+    const [inputValue, setinputValue] = useState({JobTask:'',Jobtype: '', Jobtitle:'', Description:"", Qualification:"", PostedDate:"", Deadline:"", Salary:"", Contact:"", location:"", urgency:""});
     
     const saveData = async () => {
     try{
-        await axios.post("http://localhost:5000/writepost", {Jobtype: inputValue.Jobtype,Jobtitle: inputValue.Jobtitle, Description: inputValue.Description, Qualification: inputValue.Qualification, PostedDate: inputValue.PostedDate, Deadline: inputValue.Deadline, Salary: inputValue.Salary, Contact: inputValue.Contact, location: inputValue.location, urgency: inputValue.urgency })
+        await axios.post("http://localhost:5000/writepost", {JobTask:inputValue.JobTask, Jobtype: inputValue.Jobtype,Jobtitle: inputValue.Jobtitle, Description: inputValue.Description, Qualification: inputValue.Qualification, PostedDate: inputValue.PostedDate, Deadline: inputValue.Deadline, Salary: inputValue.Salary, Contact: inputValue.Contact, location: inputValue.location, urgency: inputValue.urgency })
         console.log("data: ", inputValue)
     } catch(error){
         console.log("errorr", error)
@@ -19,6 +19,11 @@ export default function Write(){
             <div className="post">
             <h1 className="post-h1">Post</h1>
         <div>
+        <input type="radio" name="JobTask" value="Task" 
+            onChange={e=>setinputValue({...inputValue, JobTask:e.target.value})}/> Task
+
+            <input type="radio" name="JobTask" value="Job"
+            onChange={e=>setinputValue({...inputValue, JobTask:e.target.value})} /> Job <br/>
             <input  className="post-input" placeholder= "Jobtype" type="string" value={inputValue.Jobtype}
             onChange={e => setinputValue({ ...inputValue, Jobtype: e.target.value}) }/>
             </div>

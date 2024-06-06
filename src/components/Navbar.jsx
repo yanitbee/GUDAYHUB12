@@ -63,7 +63,7 @@ const Navbar = () => {
             return (
               <>
                 <li><RouterLink to="/">Home</RouterLink></li>
-                <li><RouterLink to="/taskmanager">Task Manager</RouterLink></li>
+                <li><RouterLink to="/freelancerpage/Taskmanager">Task Manager</RouterLink></li>
                 <li><RouterLink to="/message">Message</RouterLink></li>
                 <li><ConfirmLink to="/" message="Are you sure you want to log out?">LogOut</ConfirmLink></li>
               </>

@@ -84,8 +84,8 @@ app.get("/login/:username", async (req, res) => {
 
 app.post("/writepost", async (req, res)=>{
     try{
-        const { Jobtype, Jobtitle, Description, Qualification, PostedDate, Deadline, Salary, Contact, location, urgency, employer } = req.body;
-        const newPost = new postModel({  Jobtype, Jobtitle, Description, Qualification, PostedDate, Deadline, Salary, Contact, location, urgency, employer })
+        const { JobTask,Jobtype, Jobtitle, Description, Qualification, PostedDate, Deadline, Salary, Contact, location, urgency, employer } = req.body;
+        const newPost = new postModel({JobTask,  Jobtype, Jobtitle, Description, Qualification, PostedDate, Deadline, Salary, Contact, location, urgency, employer })
         await newPost.save();
         res.json({message: "post saved successfully"})
 
@@ -114,7 +114,6 @@ app.get("/readpost", async (req, res)=>{
 
     }
 })
-
 
 
 //to serach job  with id
@@ -156,8 +155,8 @@ app.get("/search/:id", async (req, res) => {
 
   app.post("/writeapplicant", async (req, res)=>{
     try{
-        const { Freelancerid, postid, Coverletter} = req.body;
-        const newPost = new ApplicantModel({  Freelancerid, postid, Coverletter})
+        const { Freelancerid, postid, Coverletter,status} = req.body;
+        const newPost = new ApplicantModel({  Freelancerid, postid, Coverletter,status})
         await newPost.save();
         res.json({message: "applicant saved successfully"})
 
@@ -167,6 +166,27 @@ app.get("/search/:id", async (req, res) => {
 
     }
 })
+
+//to search if an applicant have already applied
+
+app.get("/searchapplied", async (req, res) => {
+  try {
+    const freelancerid = req.query.freelancerid;
+    const postid = req.query.postid;
+    const applied = await ApplicantModel.find({Freelancerid:freelancerid, postid:postid});
+    if (Array.isArray(applied) && applied.length === 0) {
+      return res.json({ message: "have not applied" });
+    } else {
+      return res.json({ message: "have applied" });
+    }
+   
+    
+  } catch (error) {
+    console.error("Error reading post:", error);
+    res.status(500).json({ message: "Server error while reading freelancer" });
+  }
+});
+
 
 // Ensure upload directory exists
 const uploadDir = path.join(__dirname, 'public', 'image');
@@ -244,6 +264,7 @@ app.put("/freelanceredit/:id", uploadDoc.fields([
   { name: 'educationDocs', maxCount: 10 },
   { name: 'certificationDocs', maxCount: 10 }]), async (req, res) => {
   try {
+
     const freelancerid = req.params.id;
     const {title,skills, workhistory, description} = req.body;
     const cvPath = req.files.cv ? `documents/${req.files.cv[0].filename}` : null;
@@ -253,6 +274,7 @@ app.put("/freelanceredit/:id", uploadDoc.fields([
 console.log(req.body)
     const filter = { _id: freelancerid };
     const update = {$set: {}  };
+
     if (title) {
       update.$set['freelancerprofile.title'] = title;
     }  
@@ -265,7 +287,6 @@ console.log(req.body)
       update.$push['freelancerprofile.workhistory'] = { $each: Array.isArray(workhistory) ? workhistory : [workhistory] };
     }  
     if (description) {
-      update.$push = update.$push || {};
       update.$set['freelancerprofile.description'] = description;
     }  
      if (cvPath) {
@@ -278,7 +299,7 @@ if (educationDocsPath) {
 }    
 
 if (certificationDocsPath) {
-  update.$push = update.$push || {};
+   update.$push = update.$push || {};
   update.$push['freelancerprofile.additionaldoc.certifications'] = { $each: Array.isArray(certificationDocsPath) ? certificationDocsPath : [certificationDocsPath] };
 }    
     const updatedFreelancer = await DataModel.findOneAndUpdate(filter, update,{ new: true });
@@ -316,6 +337,25 @@ app.delete('/freelancerdatadelete/:id', async (req, res) => {
     res.status(500).json({ message: "Server error while deleting freelancer skill" });
   }
 });
+
+
+//search applied for taskmanager
+
+app.get("/searchappliedposts", async (req, res)=>{
+  try{
+    const freelancerid =req.query.freelancerid;
+console.log(freelancerid)
+    await ApplicantModel.find({ Freelancerid:freelancerid })
+    
+  .then(ApplicantModel => res.json(ApplicantModel))
+  
+  }catch (error){
+      console.log("errorr", error.message)
+      res.status(500).send("server error while searching applied post")
+
+  }
+})
+
 
 
 

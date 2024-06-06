@@ -70,7 +70,7 @@ const [serach,setsearch] = useState("")
        <div className="jobparent">
         <div className={`serachparent`}>
        <FontAwesomeIcon className={`search${searchicon} end-0`} icon={faSearch}  /> 
-       <input className={`another${searchicon} end-0`} type="text" placeholder="   serach job"
+       <input className={`another${searchicon} end-0`} type="text" placeholder="Search Job"
               onChange={handelsearch}
               onClick={searchclicked}
            />
@@ -119,7 +119,7 @@ const [serach,setsearch] = useState("")
     <div >
        {readData.map((data) => (
         <div onClick={() => handleclick(data._id)} className="postblock">
-          <img className="employer" src={`${process.env.PUBLIC_URL}${data.employer}`}/>
+          <p className="employer">{data.JobTask}</p>
             <div>
             <h3 className="text">Job Type </h3>
          <p className="title">{data.Jobtype}</p>

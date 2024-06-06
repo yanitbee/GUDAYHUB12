@@ -14,5 +14,8 @@ const ApplicantSchema = new mongoose.Schema({
     Coverletter:{
         type: String,
     },
+    status:{
+        type: String,
+    },
 });
 module.exports = mongoose.model("applicant", ApplicantSchema);

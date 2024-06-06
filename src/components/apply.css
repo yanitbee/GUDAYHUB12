@@ -60,6 +60,10 @@
     left: -100px;
     opacity: 0.6;
   }
+
+  .applied{
+    background-color: rgb(128, 130, 130);
+  }
   
   @keyframes shine {
     0% {

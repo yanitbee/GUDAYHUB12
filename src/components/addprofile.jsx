@@ -14,7 +14,7 @@ export default function Addprofile(prop){
       title: "",
       skills: [],
       workhistory: [],
-      description: "",
+      description:"",
       cv: "",
       educations: [],
       certifications: []
@@ -22,6 +22,8 @@ export default function Addprofile(prop){
 
   
     const inputref = useRef(null)
+    const inputrefedu = useRef(null)
+    const inputrefcre = useRef(null)
     const [newSkill, setNewSkill] = useState('');
     const [newWork, setNewWork] = useState('');
    
@@ -63,18 +65,28 @@ if(defalutSkill.includes(skill)){
 const [skillsdelete, setskillsdelete]= useState([])
 const [nskillsdelete, setnskillsdelete]= useState("")
 const [workdelete, setworkdelete]= useState([])
-const [nworkdelete, setnworkdelete]= useState("")
+
 
 const handlecv = ()=>{
 
     inputref.current.click();
-
 }
 
+const handleEdu = ()=>{
+  inputrefedu.current.click();
+}
+const handlecre = ()=>{
+  inputrefcre.current.click();
+}
+
+const uploadcv = async (e) =>{
+        
+  setinputValue({...inputValue, cv: e.target.files[0]});
+  
+}
 
 const deletework = (work) =>{
   inputValue.workhistory = inputValue.workhistory.filter(item => item !== work);
-  setnworkdelete("delete")
   console.log( inputValue.workhistory)
 
 }
@@ -99,17 +111,10 @@ const showthirdpage = () =>{
 const showprepage = () =>{
   setshowpages("")
 }
- const openDocument = (e) => {
-        window.open(e.target.value, "_blank");
+ const openDocument = (value) => {
+        window.open(value, "_blank");
       }
-
-     
-
-      const uploadcv = async (e) =>{
-        setinputValue({...inputValue, cv: e.target.files[0]});
-       
-        
-    }
+    
 
     const uploadedu = async (e) =>{
       setinputValue({...inputValue, educations:[...inputValue.educations, e.target.files[0]]});
@@ -127,15 +132,26 @@ const showprepage = () =>{
     const remove =() =>{
 
         prop.prop2()
-     
-        
+         
     }
 
-
+    function isFormDataEmpty(formData) {
+      for (let pair of formData.entries()) {
+        return false;
+      }
+      return true;
+    }
+   const isempty = (arr)=>{
+if(arr.length === 0){
+  return true
+    }else{
+      return false
+    }}
 
 const onsubmit = ()=>{
 
     editData()
+    if(!isempty(skillsdelete) && !isempty(workdelete)){
     if(skillsdelete && workdelete){
       deleteSkill(skillsdelete,workdelete)
     }else{
@@ -149,6 +165,7 @@ const onsubmit = ()=>{
     console.log(workdelete)
   }
 }
+  }
 }
 
     const editData = async () => {
@@ -156,6 +173,10 @@ const onsubmit = ()=>{
         const formData = new FormData();
         if(inputValue.title ){
           formData.append('title', inputValue.title);}
+
+          if(inputValue.description ){
+            formData.append('description', inputValue.description);
+          }
         
       if (inputValue.skills && inputValue.skills.length > 0) {
         inputValue.skills.forEach((skill, index) => {
@@ -167,22 +188,20 @@ const onsubmit = ()=>{
           formData.append(`workhistory[${index}]`, work);
         });
       }
-        if(inputValue.workhistory ){
-        formData.append('description', inputValue.description);
-      }
         if(inputValue.cv ){
         formData.append('cv', inputValue.cv);
+        console.log(inputValue.cv)
       }
         
           if (inputValue.educations && inputValue.educations.length > 0) {
             inputValue.educations.forEach((edu, index) => {
-              formData.append(`educationDocs[${index}]`, edu);
+              formData.append(`educationDocs`, edu);
             });
           }
 
           if (inputValue.certifications && inputValue.certifications.length > 0) {
             inputValue.certifications.forEach((cer, index) => {
-              formData.append(`certificationDocs[${index}]`, cer);
+              formData.append(`certificationDocs`, cer);
             });
           }
   
@@ -192,6 +211,8 @@ const onsubmit = ()=>{
         for (let [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
+        
+        if(!isFormDataEmpty(formData)){
         try {
          await axios.put(`http://localhost:5000/freelanceredit/${prop.prop._id}`,  formData,
           {  headers: {
@@ -201,9 +222,11 @@ const onsubmit = ()=>{
         } catch (error) {
           console.error("errorr", error);
         }
+      }
       };
 
       const deleteSkill = async (skillToDelete,workdelete) => {
+        if(skillToDelete || workdelete){
         try {
           const response = await axios.delete(`http://localhost:5000/freelancerdatadelete/${prop.prop._id}`,   {
             data: { skillToDelete, workdelete }} );
@@ -212,6 +235,7 @@ const onsubmit = ()=>{
         } catch (error) {
           console.error('Error deleting skill:', error);
         }
+      }
       };
       
    
@@ -350,12 +374,12 @@ return(
              :null  
             }
             Change CV
-          <div  className='cv2'>
+          <div  className='cv2'  onClick={handlecv}>
             +
-            <input  type="file" onChange={uploadcv}  ref={inputref} style={{display:"none"}} /> 
-
             <img src={`${process.env.PUBLIC_URL}/image/cvup.png`}
-             onClick={handlecv} />
+             />
+            <input  type="file" onChange={uploadcv}  ref={inputref} style={{display:"none"}} /> 
+          
             </div>
             
             </div> <br/> <br/> 
@@ -372,30 +396,19 @@ return(
             {prop.prop.freelancerprofile.additionaldoc.educations.map((educations) => 
   
              <FontAwesomeIcon icon={faFileCircleCheck} size="2x" color=' rgba(73, 154, 149, 0.61)'
-             onClick={() => {openDocument(educations)}}
+             onClick={() => {openDocument(educations)}} 
              style={{ marginRight: '10px' }} /> 
              
             )}
-              <select class="custom-dropdown" onChange={openDocument}>
-  {prop.prop.freelancerprofile.additionaldoc.educations.map((educations) => 
-  
-  <option value={educations}>Files</option>
-
-)}   
-</select>
-  
-
-
- 
      
 
             </div>
 
             
             </div>
-            <div className='edu2'>
-               <FontAwesomeIcon  onClick={handlecv} icon={faFileArrowUp} size="3x" />
-            <input  type="file" onChange={uploadedu}    ref={inputref} style={{display:"none"}}/> 
+            <div className='edu2'onClick={handleEdu} >
+               <FontAwesomeIcon  icon={faFileArrowUp} size="3x" />
+            <input  type="file" onChange={uploadedu}    ref={inputrefedu} style={{display:"none"}}/> 
             </div>
             
              
@@ -407,7 +420,7 @@ return(
             {prop.prop.freelancerprofile.additionaldoc.certifications.map((certifications) => 
   
   <FontAwesomeIcon icon={faFileCircleCheck} size="2x" color=' rgba(73, 154, 149, 0.61)'
-  onClick={() => {openDocument(certifications)}}
+  onClick={() => {openDocument(certifications)}} 
   style={{ marginRight: '10px' }} /> 
  )}
             </div>
@@ -415,9 +428,9 @@ return(
              
             </div>
 
-            <div className='edu2'>
-               <FontAwesomeIcon  onClick={handlecv} icon={faFileArrowUp} size="2x" />
-            <input  type="file" onChange={uploadcet}    ref={inputref} style={{display:"none"}}/> 
+            <div className='edu2' onClick={handlecre} >
+               <FontAwesomeIcon  icon={faFileArrowUp} size="2x" />
+            <input  type="file" onChange={uploadcet}    ref={inputrefcre} style={{display:"none"}}/> 
            
             </div>
             
